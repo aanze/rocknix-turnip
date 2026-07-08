@@ -1,0 +1,23 @@
+# Known Mesa / Turnip fork sources for the builder's "fork" picker.
+# Format:  Name | git-url      ('#' = comment, blank lines ignored)
+#
+# The builder lists each fork's branches (with an optional keyword filter, e.g.
+# "a8xx", "a830", or a game/emulator name) so you can grab a branch known to
+# work for a given case, then cherry-picks it onto your base and builds it for
+# glibc. Edit freely: add the people you follow, fix a URL if it's unreachable.
+#
+# NOTE: the two contributor URLs below are best-effort guesses of their
+# freedesktop GitLab fork. If the builder says "unreachable", open their profile
+# at https://gitlab.freedesktop.org and correct the URL here (or use github).
+
+Official Mesa (main + all branches) | https://gitlab.freedesktop.org/mesa/mesa.git
+mrpurple666                         | https://gitlab.freedesktop.org/mrpurple666/mesa.git
+
+# whitebelyash's Turnip Gen8 SOURCE (the "build from" of their AdrenoTools "Turnip
+# A8XX vXX" / "Gen8 VXX" releases). Branch turnip/gen8 = the a830/a840 work.
+whitebelyash mesa (gen8)            | https://github.com/whitebelyash/mesa-unified.git
+
+# StevenMXZ Turnip source (a8xx; also has glibc branches turnip-debian/fedora/ubuntu)
+StevenMXZ mesa-tu8                  | https://github.com/StevenMXZ/mesa-tu8.git
+
+# Add more contributors you follow here, one per line:  Name | git-url

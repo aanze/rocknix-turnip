@@ -1,0 +1,17 @@
+# Turnip driver catalogue sources for aanze/rocknix-turnip.
+# One spec per line. '#' comments and blank lines are ignored.
+# Edit this file to add/remove a driver, then run turnip-catalog.bat (Windows)
+# or publish-turnip-catalog.sh (WSL) to rebuild + publish the whole catalogue.
+#
+# Spec formats:
+#   stable:<tag>            official Mesa release tag           e.g. stable:26.1.3
+#   git:<ref>[:<label>]     a mesa.git branch/commit            e.g. git:origin/main:nightly
+#   local:<path-to-.so>     a .so you built by hand (perso)     e.g. local:/home/marc/turnip-x.so
+
+stable:26.1.4
+stable:26.1.3
+stable:26.1.2
+
+# Examples (uncomment / adapt):
+# git:origin/main:nightly
+# stable:26.2.0

@@ -1,0 +1,11 @@
+# GitHub repos that PUBLISH Turnip driver releases (AdrenoTools / Android format).
+# Format:  owner/repo      ('#' = comment)
+#
+# These ship Android (bionic) .so/.zip that do NOT run on ROCKNIX directly. But
+# the builder's "Find a driver by name" search reads their release names + notes
+# to locate a known build (e.g. "Turnip Gen8 V30") AND the Mesa SOURCE it was
+# "build from:" — then builds THAT source for glibc. So you get the same driver,
+# compiled for ROCKNIX. Add any release repo you follow.
+
+StevenMXZ/Adreno-Tools-Drivers
+whitebelyash/AdrenoToolsDrivers
