@@ -1,0 +1,49 @@
+# Auto-heal the catalogue manifest: drop entries whose .so asset was deleted
+# from the release. Deleting a driver = delete its asset in the GitHub UI;
+# this workflow prunes manifest.json so devices stop offering the ghost.
+# Runs on release edits, nightly as a safety net, and on manual dispatch.
+name: Prune catalogue manifest
+on:
+  release:
+    types: [edited]
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prune manifest entries whose asset is gone
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          gh release download catalog --repo "$GITHUB_REPOSITORY" \
+            --pattern manifest.json --output manifest.json
+          gh release view catalog --repo "$GITHUB_REPOSITORY" \
+            --json assets --jq '.assets[].name' > assets.txt
+          python3 - <<'PY'
+          import json
+          assets = {l.strip() for l in open("assets.txt") if l.strip()}
+          m = json.load(open("manifest.json"))
+          def aname(d):
+              u = d.get("url", "")
+              return u.rsplit("/", 1)[-1] if u else ""
+          keep = [d for d in m.get("drivers", []) if aname(d) in assets]
+          if assets and len(keep) != len(m.get("drivers", [])):
+              dropped = [d["id"] for d in m["drivers"] if d not in keep]
+              print("pruning:", dropped)
+              m["drivers"] = keep
+              json.dump(m, open("manifest.json", "w"), indent=2)
+              open("changed", "w").close()
+          else:
+              print("nothing to prune")
+          PY
+          if [ -f changed ]; then
+            gh release upload catalog manifest.json --clobber --repo "$GITHUB_REPOSITORY"
+            echo "manifest pruned + republished"
+          fi
